@@ -72,12 +72,57 @@
             font-size: 1.5em;
         }
 
+
+
+        /* Phong cách Bé Trai */
+        .boyStyle {
+            background-color: #E0FFFF;
+            /* Màu nền sáng hơn */
+        }
+
+        .boyStyle h1 {
+            color: #1E90FF;
+            /* Màu tiêu đề xanh dương */
+        }
+
+        .boyStyle p {
+            color: #FF4500;
+            /* Màu văn bản cam */
+        }
+
+        .boyStyle button {
+            background-color: #1E90FF;
+            /* Màu nút xanh dương */
+        }
+
+        .boyStyle button:hover {
+            background-color: #00BFFF;
+            /* Màu nút xanh nhạt khi hover */
+        }
+
+        
+
     
+
+        .row-btn {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .row-btn button{
+            font-size: 1em;
+            
+        }
     </style>
 </head>
 
 <body>
     <div class="box">
+        <div class="row-btn">
+            <button id="boyStyleBtn">Phong cách Bé Trai</button>
+            <button id="girlStyleBtn">Phong cách Bé Gái</button>
+        </div>
+
         <h1>Trò Chơi Cộng Và Trừ Ngẫu Nhiên</h1>
         <p>Vui lòng nhập tổng hoặc hiệu chính xác của hai số ngẫu nhiên từ 1 đến 99.</p>
         <p>Chúc may mắn!</p>
@@ -90,12 +135,20 @@
         <p id="message"></p>
 
         <p id="score">Điểm: 0</p>
-      
 
     </div>
 
     <script>
-    
+        // Thay đổi phong cách cho bé trai
+        document.getElementById('boyStyleBtn').addEventListener('click', () => {
+            document.querySelector('.box').className = 'box boyStyle'; // Thay đổi class
+        });
+
+        // Thay đổi phong cách cho bé gái
+        document.getElementById('girlStyleBtn').addEventListener('click', () => {
+            document.querySelector('.box').className = 'box girlStyle'; // Thay đổi class
+        });
+
         const ip1 = document.getElementById('ip1');
         const ip2 = document.getElementById('ip2');
         const operator = document.getElementById('operator');
@@ -118,9 +171,9 @@
 
                 const unit1 = num1 % 10;
                 const unit2 = num2 % 10;
-                console.log({num1,unit1});
-                console.log({num2,unit2});
-                    
+                console.log({ num1, unit1 });
+                console.log({ num2, unit2 });
+
                 if (op === '+') {
                     result = num1 + num2;
                     // if (unit1 + unit2 > 9) continue;
@@ -128,7 +181,7 @@
                     result = num1 - num2;
                     // if (unit1 <= unit2) continue;
                 }
-               
+
 
             } while (result >= 100 || result < 0);
 
@@ -143,7 +196,7 @@
 
 
         function checkResult() {
-        
+
             const userResult = parseInt(resultInput.value);
 
             if (userResult === correctResult) {
@@ -182,7 +235,7 @@
         submitBtn.addEventListener('click', checkResult);
         resultInput.addEventListener('keypress', (event) => {
             if (event.key === 'Enter') {
-        
+
                 checkResult();
             }
         });

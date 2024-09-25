@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Addition and Subtraction Game</title>
+    <style>
+        body {
+            background-color: #FFFAF0;
+            font-family: 'Comic Sans MS', 'Arial Rounded', sans-serif;
+        }
+
+        .box {
+            text-align: center;
+            margin: 20px auto;
+            padding: 20px;
+            border: 2px solid #FFC0CB;
+            border-radius: 10px;
+            background-color: #FFF0F5;
+            max-width: 400px;
+        }
+
+        h1 {
+            font-size: 2em;
+            color: #FF69B4;
+        }
+
+        p {
+            font-size: 1.2em;
+            color: #8A2BE2;
+        }
+
+        input {
+            margin: 5px;
+            padding: 10px;
+            font-size: 1.2em;
+            border-radius: 5px;
+            border: 2px solid #FFB6C1;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #FF69B4;
+        }
+
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            color: white;
+            background-color: #FF69B4;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #FF1493;
+        }
+
+        #message {
+            color: green;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        #score {
+            color: #8A2BE2;
+            font-size: 1.5em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <h1>Trò Chơi Cộng Và Trừ Ngẫu Nhiên</h1>
+        <p>Vui lòng nhập tổng hoặc hiệu chính xác của hai số ngẫu nhiên từ 1 đến 99.</p>
+        <p>Chúc may mắn!</p>
+      
+        <input type="number" id="ip1" placeholder="Number 1" readonly>
+        <div id="operator" style="font-size:30px;color:#FF69B4">+</div>
+        <input type="number" id="ip2" placeholder="Number 2" readonly>
+        <input type="number" id="result" placeholder="Câu trả lời" required><br>
+        <button id="submitBtn">Trả lời</button>
+        <p id="message"></p>
+    
+        <p id="score">Điểm: 0</p>
+    
+    </div>
+
+    <script>
+        const ip1 = document.getElementById('ip1');
+        const ip2 = document.getElementById('ip2');
+        const operator = document.getElementById('operator');
+        const resultInput = document.getElementById('result');
+        const message = document.getElementById('message');
+        const scoreDisplay = document.getElementById('score');
+        const submitBtn = document.getElementById('submitBtn');
+
+        let correctResult;
+        let score = 0;
+
+
+        function generateRandomNumbers() {
+            let num1, num2, result, op;
+
+            do {
+                num1 = Math.floor(Math.random() * 99) + 1;
+                num2 = Math.floor(Math.random() * 99) + 1;
+                op = Math.random() > 0.5 ? '+' : '-'; 
+
+                const unit1 = num1 % 10; 
+                const unit2 = num2 % 10; 
+
+                if (op === '+') {
+                    result = num1 + num2;
+                    if (unit1 + unit2 > 9) continue;
+                } else {
+                    result = num1 - num2;
+                    if (unit1 <= unit2) continue;
+                }
+
+            } while (result >= 100 || result < 0); 
+
+            ip1.value = num1;
+            ip2.value = num2;
+            operator.textContent = op;
+            correctResult = result; 
+            resultInput.value = '';
+            message.textContent = '';
+            resultInput.focus();
+        }
+
+   
+        function checkResult() {
+            const userResult = parseInt(resultInput.value);
+
+            if (userResult === correctResult) {
+                message.textContent = 'Đúng rồi! Làm tốt lắm!';
+                message.style.color = 'green';
+                score++;
+                setTimeout(() => {
+                    generateRandomNumbers();
+                }, 2000);
+
+            } else {
+                message.textContent = 'Không đúng, vui lòng tính lại kết quả.';
+                message.style.color = 'red';
+                setTimeout(() => {
+                    resultInput.value = '';
+                }, 2000);
+            }
+
+            scoreDisplay.textContent = `Điểm: ${score}`;
+        }
+
+        // Hàm reset điểm
+        function resetScore() {
+            score = 0;
+            scoreDisplay.textContent = 'Điểm: 0';
+            message.textContent = '';
+        }
+
+        // Sự kiện khi nhấn nút Submit hoặc Enter
+        submitBtn.addEventListener('click', checkResult);
+        resultInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                checkResult();
+            }
+        });
+
+        // Tạo game khi trang tải
+        window.onload = generateRandomNumbers;
+    </script>
+</body>
+
+</html>

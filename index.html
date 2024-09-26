@@ -163,47 +163,47 @@
 
 
         function generateRandomNumbers() {
-    let num1, num2, result, op;
-    let valid = false;
+            let num1, num2, result, op;
+            let valid = false;
 
-    while (!valid) { // Lặp lại cho đến khi tìm được cặp số hợp lệ
-        // Tạo số ngẫu nhiên từ 10 đến 99
-        num1 = Math.floor(Math.random() * 90); 
-        num2 = Math.floor(Math.random() * 90); 
-        op = Math.random() > 0.5 ? '+' : '-';
+            while (!valid) { // Lặp lại cho đến khi tìm được cặp số hợp lệ
+                // Tạo số ngẫu nhiên từ 10 đến 99
+                num1 = Math.floor(Math.random() * 90);
+                num2 = Math.floor(Math.random() * 90);
+                op = Math.random() > 0.5 ? '+' : '-';
 
-        const unit1 = num1 % 10; // Hàng đơn vị của num1
-        const unit2 = num2 % 10; // Hàng đơn vị của num2
+                const unit1 = num1 % 10; // Hàng đơn vị của num1
+                const unit2 = num2 % 10; // Hàng đơn vị của num2
 
-        if (op === '+') {
-            result = num1 + num2;
-            console.log(`Cộng: ${num1} + ${num2} = ${result}`);
+                if (op === '+') {
+                    result = num1 + num2;
+                    console.log(`Cộng: ${num1} + ${num2} = ${result}`);
 
-            // Kiểm tra nếu tổng của hàng đơn vị lớn hơn 9
-            if (unit1 + unit2 <= 9 && result < 100) {
-                valid = true; // Thoả mãn điều kiện thì thoát vòng lặp
+                    // Kiểm tra nếu tổng của hàng đơn vị lớn hơn 9
+                    if (unit1 + unit2 <= 9 && result < 100) {
+                        valid = true; // Thoả mãn điều kiện thì thoát vòng lặp
+                    }
+                } else {
+                    result = num1 - num2;
+                    console.log(`Trừ: ${num1} - ${num2} = ${result}`);
+
+                    // Kiểm tra nếu hàng đơn vị của số bị trừ lớn hơn hàng đơn vị của số trừ
+                    if (unit1 > unit2 && result >= 0) {
+                        valid = true; // Thoả mãn điều kiện thì thoát vòng lặp
+                    }
+                }
             }
-        } else {
-            result = num1 - num2;
-            console.log(`Trừ: ${num1} - ${num2} = ${result}`);
 
-            // Kiểm tra nếu hàng đơn vị của số bị trừ lớn hơn hàng đơn vị của số trừ
-            if (unit1 > unit2 && result >= 0) {
-                valid = true; // Thoả mãn điều kiện thì thoát vòng lặp
-            }
+            console.log(`Kết quả hợp lệ: ${num1} ${op} ${num2} = ${result}`);
+
+            ip1.value = num1;
+            ip2.value = num2;
+            operator.textContent = op;
+            correctResult = result;
+            resultInput.value = '';
+            message.textContent = '';
+            resultInput.focus();
         }
-    }
-
-    console.log(`Kết quả hợp lệ: ${num1} ${op} ${num2} = ${result}`);
-
-    ip1.value = num1;
-    ip2.value = num2;
-    operator.textContent = op;
-    correctResult = result;
-    resultInput.value = '';
-    message.textContent = '';
-    resultInput.focus();
-}
 
 
 
@@ -228,8 +228,10 @@
             } else {
                 message.textContent = 'Không đúng, vui lòng tính lại kết quả.';
                 message.style.color = 'red';
+                
                 setTimeout(() => {
                     resultInput.value = '';
+                    resultInput.focus();
                 }, 2000);
             }
 

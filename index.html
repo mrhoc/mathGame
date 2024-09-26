@@ -100,18 +100,19 @@
             /* Màu nút xanh nhạt khi hover */
         }
 
-        
 
-    
+
+
 
         .row-btn {
             display: flex;
             justify-content: space-around;
             margin-top: 20px;
         }
-        .row-btn button{
+
+        .row-btn button {
             font-size: 1em;
-            
+
         }
     </style>
 </head>
@@ -162,37 +163,48 @@
 
 
         function generateRandomNumbers() {
-            let num1, num2, result, op;
+    let num1, num2, result, op;
+    let valid = false;
 
-            do {
-                num1 = Math.floor(Math.random() * 99);
-                num2 = Math.floor(Math.random() * 99);
-                op = Math.random() > 0.5 ? '+' : '-';
+    while (!valid) { // Lặp lại cho đến khi tìm được cặp số hợp lệ
+        // Tạo số ngẫu nhiên từ 10 đến 99
+        num1 = Math.floor(Math.random() * 90); 
+        num2 = Math.floor(Math.random() * 90); 
+        op = Math.random() > 0.5 ? '+' : '-';
 
-                const unit1 = num1 % 10;
-                const unit2 = num2 % 10;
-                console.log({ num1, unit1 });
-                console.log({ num2, unit2 });
+        const unit1 = num1 % 10; // Hàng đơn vị của num1
+        const unit2 = num2 % 10; // Hàng đơn vị của num2
 
-                if (op === '+') {
-                    result = num1 + num2;
-                    // if (unit1 + unit2 > 9) continue;
-                } else {
-                    result = num1 - num2;
-                    // if (unit1 <= unit2) continue;
-                }
+        if (op === '+') {
+            result = num1 + num2;
+            console.log(`Cộng: ${num1} + ${num2} = ${result}`);
 
+            // Kiểm tra nếu tổng của hàng đơn vị lớn hơn 9
+            if (unit1 + unit2 <= 9 && result < 100) {
+                valid = true; // Thoả mãn điều kiện thì thoát vòng lặp
+            }
+        } else {
+            result = num1 - num2;
+            console.log(`Trừ: ${num1} - ${num2} = ${result}`);
 
-            } while (result >= 100 || result < 0);
-
-            ip1.value = num1;
-            ip2.value = num2;
-            operator.textContent = op;
-            correctResult = result;
-            resultInput.value = '';
-            message.textContent = '';
-            resultInput.focus();
+            // Kiểm tra nếu hàng đơn vị của số bị trừ lớn hơn hàng đơn vị của số trừ
+            if (unit1 > unit2 && result >= 0) {
+                valid = true; // Thoả mãn điều kiện thì thoát vòng lặp
+            }
         }
+    }
+
+    console.log(`Kết quả hợp lệ: ${num1} ${op} ${num2} = ${result}`);
+
+    ip1.value = num1;
+    ip2.value = num2;
+    operator.textContent = op;
+    correctResult = result;
+    resultInput.value = '';
+    message.textContent = '';
+    resultInput.focus();
+}
+
 
 
         function checkResult() {

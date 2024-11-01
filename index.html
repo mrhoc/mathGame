@@ -163,47 +163,41 @@
 
 
         function generateRandomNumbers() {
-            let num1, num2, result, op;
-            let valid = false;
+    let num1, num2, result, op;
+    let valid = false;
 
-            while (!valid) { // Lặp lại cho đến khi tìm được cặp số hợp lệ
-                // Tạo số ngẫu nhiên từ 10 đến 99
-                num1 = Math.floor(Math.random() * 90);
-                num2 = Math.floor(Math.random() * 90);
-                op = Math.random() > 0.5 ? '+' : '-';
+    while (!valid) {
+        // Generate random numbers with the specified constraints
+        num1 = Math.floor(Math.random() * 19) + 1; // Generates num1 between 1 and 19
+        num2 = Math.floor(Math.random() * 9) + 1;  // Generates num2 between 1 and 9
+        op = Math.random() > 0.5 ? '+' : '-';
 
-                const unit1 = num1 % 10; // Hàng đơn vị của num1
-                const unit2 = num2 % 10; // Hàng đơn vị của num2
-
-                if (op === '+') {
-                    result = num1 + num2;
-                    console.log(`Cộng: ${num1} + ${num2} = ${result}`);
-
-                    // Kiểm tra nếu tổng của hàng đơn vị lớn hơn 9
-                    if (unit1 + unit2 <= 9 && result < 100) {
-                        valid = true; // Thoả mãn điều kiện thì thoát vòng lặp
-                    }
-                } else {
-                    result = num1 - num2;
-                    console.log(`Trừ: ${num1} - ${num2} = ${result}`);
-
-                    // Kiểm tra nếu hàng đơn vị của số bị trừ lớn hơn hàng đơn vị của số trừ
-                    if (unit1 > unit2 && result >= 0) {
-                        valid = true; // Thoả mãn điều kiện thì thoát vòng lặp
-                    }
-                }
+        if (op === '+') {
+            result = num1 + num2;
+            if (num1 > num2 && result < 20) {
+                valid = true; // Condition met for addition
             }
-
-            console.log(`Kết quả hợp lệ: ${num1} ${op} ${num2} = ${result}`);
-
-            ip1.value = num1;
-            ip2.value = num2;
-            operator.textContent = op;
-            correctResult = result;
-            resultInput.value = '';
-            message.textContent = '';
-            resultInput.focus();
+        } else {
+            result = num1 - num2;
+            if (num1 > num2 && result >= 0) {
+                valid = true; // Condition met for subtraction
+            }
         }
+    }
+
+    // Display the numbers and operator in the HTML inputs
+    ip1.value = num1;
+    ip2.value = num2;
+    operator.textContent = op;
+    correctResult = result;
+    resultInput.value = '';
+    message.textContent = '';
+    resultInput.focus();
+}
+
+// Run the game when the page loads
+window.onload = generateRandomNumbers;
+
 
 
 
